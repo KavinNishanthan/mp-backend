@@ -2,39 +2,47 @@ import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
-    name: string;
-    username: string;
-    password?: string;
-    role: 'admin' | 'driver';
-    isActive: boolean;
-    matchPassword(enteredPassword: string): Promise<boolean>;
+  name: string;
+  username: string;
+  phone: string;
+  password?: string;
+  role: "admin" | "driver";
+  isActive: boolean;
+  matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
-const userSchema: Schema = new Schema({
+const userSchema: Schema = new Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      require: true,
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     role: {
-        type: String,
-        enum: ['admin', 'driver'],
-        required: true,
+      type: String,
+      enum: ["admin", "driver"],
+      required: true,
     },
     isActive: {
-        type: Boolean,
-        default: true,
+      type: Boolean,
+      default: true,
     },
-}, { timestamps: true });
+  },
+  { timestamps: true },
+);
 
 // Hash password before saving
 userSchema.pre<IUser>('save', async function (next) {

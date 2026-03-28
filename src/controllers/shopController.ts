@@ -29,6 +29,7 @@ export const getShopById = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const createShop = async (req: Request, res: Response) => {
     const { name, address, contactNumber, customPrices } = req.body;
+    console.log(name, address, contactNumber, customPrices);
     const shop = await Shop.create({ name, address, contactNumber, customPrices });
     res.status(201).json(shop);
 };
